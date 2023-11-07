@@ -1,0 +1,2 @@
+Var <: 5 * 25;    # la variable var toma el valor de 5 * 25
+read v

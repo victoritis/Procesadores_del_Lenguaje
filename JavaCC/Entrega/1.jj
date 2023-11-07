@@ -1,0 +1,297 @@
+/*
+ * Título    	: Minicompilador con JavaCC	Pila Abstracta
+ * Descripción	: Programa en JavaCC para obtener un compilador que traduzca un lenguaje
+ *		  de alto nivel a código de máquina de pila abstracta.
+ * Autor    	: Victor Gonzalez
+ * Fecha      	: 07-11-2023
+ * Versión    	: v.1
+ * Asignatura 	: Procesadores del Lenguaje
+ * Entrega    	: Práctica 2 Javacc
+ *
+ */
+
+//estaria bien poner "(" como <OPAR> o
+//Si tengo tk=<while> expr() "do"
+//El do si lo tengo declarado como token, ¿no deberia de funcionar solo con?:
+//tk=<while> expr() <do>
+
+//SI no vamos a usar un token para nada, no es necesario hacer tk=<WHILE> verdad??
+
+
+/* PARSER */
+
+PARSER_BEGIN(practica2)
+
+
+
+public class practica2{
+
+	//Declaración de variables
+	static private int lbl = -1;
+	static private int endif = 0;
+
+	//Funciones para obtener el numero de etiqueta
+	private static int obtenerSiguienteLBL() {
+		return ++lbl;
+	}
+	private static int obtenerLBL() {
+		return lbl;
+	}
+	private static int restarLBL() {
+		return --lbl;
+	}
+
+
+	//Función main de practica2
+	public static void main (String[] args) throws Exception {
+		if(args.length == 0){	//Entrada por pantalla
+                	practica2 parser = new practica2(System.in);
+                	parser.practica2();
+        	}else{ 			//Entrada mediante fichero
+                	practica2 parser = new practica2(new java.io.FileInputStream(args[0]));
+                	parser.practica2();
+
+        	}
+    	}
+
+}
+
+PARSER_END(practica2)
+
+/* SKIPS */
+
+SKIP: {
+ 	//Saltamos cualquier espaciado, salto  de linea o tabuladores
+ 	<SPC: [" ","\n", "\t","\r"]>
+ 	//Tambien nos saltamos los posibles comentarios que comiencen por una exclamación
+|	<COM: "#" (~["\n"])*"\n">
+}
+
+/* TOKENS */
+
+TOKEN:
+{
+	//Todas las palabras reservadas para poder hacer que nuestro programa funcione
+	<WHILE: ("while")>
+        |<ENDWHILE: ("endwhile")>
+        |<IF: ("if")>
+        |<ENDIF: ("endif")>
+        |<THEN: ("then")>
+        |<ELSEIF: ("elseif")>
+        |<ELSE: ("else")>
+        |<PRINT: ("print")>
+        |<READ: ("read")>
+        |<DO: ("do")>
+        |<OPAR: ("(")>
+				|<CPAR: (")")>
+				|<FOR: ("for")>
+				|<FROM: ("from")>
+				|<TO: ("to")>
+				|<BY: ("by")>
+}
+
+TOKEN:
+{
+ 	<NUM: (["0"-"9"])+> //Todos los números enteros
+        |<ID: (["a"-"z"]|["A"-"Z"]|"_")(["a"-"z" ]|["A"-"Z"]|<NUM>|"_"){0,50}>
+        /* ID, reconoce las letras minúsculas, mayúsculas, guiones bajos y números, sin embargo
+ 	 * no reconoce algo que comience con números. Está declarada al final debido a que puede
+ 	 * haber caso de empate de longitud con otros tokenes y ejecutarse ID en vez de otro token
+ 	 * y no queremos que eso suceda.*/
+}
+
+/* GRAMÁTICA */
+
+void practica2():{}
+{
+	stmts()
+  	<EOF>
+}
+
+/* No terminal 	: stmts
+ * Producciones	: stmts -> stmt ';' stmts | stmt
+ * Return	: void
+ */
+void stmts():{}
+{
+  	stmt() (";" stmts())?
+
+}
+
+
+/* No terminal : stmt
+ * Producciones : stmt -> loop | cond | assig | io
+ * Return : void
+ */
+void stmt():{}
+{
+     (assig() | io() | cond() | loop())
+}
+
+
+
+
+/* No terminal 	: assig
+ * Terminales	: <ID>, "=", "+=", "-=", "*=", "/="
+ * Producciones	: assig -> ID '<:' expr | ID '+=' expr | ID '-=' expr | ID '*=' expr | ID '/=' expr
+ * Return	: void
+ */
+void assig():{
+	Token tk;
+}
+{
+	tk = <ID>
+	(
+	   "<:" {System.out.println("\tvalori " + tk.image);} expr() {System.out.println("\tasigna");}
+	|  "+=" {System.out.println("\tvalori " + tk.image + "\n\tvalord " + tk.image);} expr() {System.out.println("\tadd" + "\n\tasigna");}
+	|  "-=" {System.out.println("\tvalori " + tk.image + "\n\tvalord " + tk.image);} expr() {System.out.println("\tsub" + "\n\tasigna");}
+	|  "*=" {System.out.println("\tvalori " + tk.image + "\n\tvalord " + tk.image);} expr() {System.out.println("\tmul" + "\n\tasigna");}
+	|  "/=" {System.out.println("\tvalori " + tk.image + "\n\tvalord " + tk.image);} expr() {System.out.println("\tdiv" + "\n\tasigna");}
+	)
+}
+
+
+/* No terminal : cond
+ * Producciones : cond ->  'if' '(' expr ')' '{' stmts '}'  'else' '{' stmts '}'
+ *								cond ->  'if' '(' expr ')' '{' stmts '}'
+ * Return : void
+ */
+void cond():
+{
+	Token tk;
+	int etiqueta_else = obtenerSiguienteLBL();
+	int etiqueta_fin_if = obtenerSiguienteLBL();
+	boolean print = true;	//Sirve para imprimir la etiqueta LBL en caso de que no haya else en la condicion
+}
+{
+    (
+   		tk=<IF> "(" expr() ")" {System.out.println("\tsifalsovea LBL" + etiqueta_else);}
+			 "{" stmts() "}"
+			((
+			"else" {System.out.println("\tvea LBL" + etiqueta_fin_if);}
+			{System.out.println("LBL" + etiqueta_else + ":");}
+			"{" stmts() "}" {System.out.println("LBL" + etiqueta_fin_if + ":");}
+			{print = false;}
+			)?
+			({if(print==true){System.out.println("LBL" + etiqueta_else + ":"); restarLBL();}}
+			))
+    )
+}
+
+/* No terminal: loop
+ * Terminales: 'do', 'while', '(', ')', 'for', '{', '}', 'from', 'to', 'by', ID, NUM
+ * Producciones:
+ *   loop -> 'do' stmts 'while' '(' expr ')'
+ *        | 'for' '(' ID 'from' expr 'to' NUM ')' '{' stmts '}'
+ *        | 'for' '(' ID 'from' expr 'to' NUM 'by' NUM ')' '{' stmts '}'
+ * Return: void
+ */
+ void loop():{
+ 	Token tk1,tk2,tk3 = null;
+ 	int etiqueta_do = obtenerSiguienteLBL();	//tambien sirve para moverse por el for de igual manera que en el while
+ 	int etiqueta_fin_while = obtenerSiguienteLBL();	//tambien sirve para moverse por el for de igual manera que en el while
+ }
+ {
+ 	(
+ 		(tk1=<DO> {System.out.println("LBL" + etiqueta_do + ":");} stmts()  <WHILE>  "(" expr() ")" {System.out.println("\tsifalsovea LBL" + etiqueta_fin_while);} {System.out.println("\tvea LBL" + etiqueta_do);}
+		{System.out.println("LBL" + etiqueta_fin_while + ":");})
+		|
+		//PARA EL CASO DEL for
+		(<FOR> "(" tk1=<ID> {System.out.println("\tvalori " + tk1.image );} <FROM> expr() {System.out.println("\tasigna");} {System.out.println("LBL" + etiqueta_do + ":");} <TO>  tk2=<NUM> (<BY> tk3=<NUM>)? ")" "{" stmts() "}"
+		{System.out.println(
+	 	"\tvalori " + tk1.image + "\n" +
+	 	"\tvalord " + tk1.image + "\n" +
+	 	"\tmete " + (tk3 != null ? tk3.image : "1") + "\n" +
+	 	"\tadd\n" +
+	 	"\tasigna\n" +
+	 	"\tmete " + tk2.image + "\n" +
+	 	"\tvalord " + tk1.image + "\n" +
+	 	"\tsub\n" +
+	 	"\tsifalsovea LBL" + etiqueta_fin_while + "\n" +
+	 	"\tvea LBL" + etiqueta_do + "\n" +
+	 	"LBL" + etiqueta_fin_while + ":");})
+  )
+ }
+
+
+/* No terminal 	: io
+ * Terminales	: <PRINT>, <READ>
+ * Producciones	: io -> PRINT expr | READ IDFOR
+ * Return	: void
+ */
+void io():{
+	Token tk;
+}
+{
+    (
+        tk=<PRINT> expr() {System.out.println("\tprint");}
+    |	tk = <READ> (tk = <ID> { System.out.println("\tread " + tk.image);})
+    )
+}
+
+
+/* No terminal : expr
+ * Producciones : expr -> expr '+' mult | expr '-' mult | mult
+ * Return : void
+ */
+void expr():{}
+{
+    mult() expr1()
+}
+
+/* No terminal : expr1
+ * Terminales : "+", "-"
+ * Producciones : expr1 -> '+' mult expr1 | '-' mult expr1 | ε
+ * Return : void
+ */
+void expr1():{}
+{
+  (
+    (
+        "+" mult() {System.out.println("\tadd");}
+    |   "-" mult() {System.out.println("\tsub");}
+    ) expr1()
+  )?
+}
+
+
+
+/* No terminal : mult
+ * Producciones : mult -> val mult1 | val
+ * Return : void
+ */
+void mult():{}
+{
+    val() mult1()
+}
+
+/* No terminal : mult1
+ * Terminales : "*", "/"
+ * Producciones : mult1 -> '*' val mult1 | '/' val mult1 | ε
+ * Return : void
+ */
+void mult1():{}
+{
+  (
+    (
+        "*" val() {System.out.println("\tmul");}
+    |   "/" val() {System.out.println("\tdiv");}
+    ) mult1()
+  )?
+}
+
+
+/* No terminal : val
+ * Producciones : val -> NUM | ID | '(' expr ')'
+ * Return : void
+ */
+void val():{
+    Token tk;
+}
+{
+    (
+        tk=<NUM> {System.out.println("\tmete " + tk.image);}
+    |   tk=<ID> {System.out.println("\tvalord " + tk.image);}
+    |   "(" expr() ")"
+    )
+}

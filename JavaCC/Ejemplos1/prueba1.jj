@@ -1,0 +1,33 @@
+options {
+  STATIC = false;
+}
+
+PARSER_BEGIN(test)
+public class test {
+	public static void main(String args[]) throws ParseException {
+		Token tk;
+		testTokenManager tkmngr = new testTokenManager( new SimpleCharStream(System.in) );
+		try {
+			while ( (tk = tkmngr.getNextToken()).kind != EOF );
+		} catch (TokenMgrError x) {
+			System.out.println("Exiting.");
+			throw x;
+		}
+	}
+}
+PARSER_END(test)
+
+TOKEN_MGR_DECLS:
+{
+    int numLin = 0;
+    int numNumber = 0;
+}
+
+
+TOKEN:
+{
+< NUMBER: (<DIGIT>)+ ( "." (<DIGIT>)+ )? > { numNumber++; System.out.println(numNumber); }
+| < #DIGIT: ["0"-"9"] >
+| < EOL: "\n" > { numLin++; }
+}
+

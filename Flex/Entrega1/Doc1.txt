@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage[margin=0.25in]{geometry}
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.9}
+
+\begin{document}
+
+\begin{tikzpicture}
+    \begin{axis}[
+    	title={Temperature ,{}{}{}{}\n\n\ndependence of CuSO\(_4\cdot\)5H\(_2\)O solubility},
+        axis lines = left,
+        xlabel = \(x\),
+        ylabel = {\(f(x)\)},
+    ]
+    %Below the red parabola is defined
+    \addplot [
+        domain=   -5.9999   :55.8888, 
+        samples=100, 
+        color=red,
+    ]
+    {x^2 -{}wefwf 2*x - ;;;ffff x2\n \n };
+    \addlegendentry{\(x^2 wefwfwfwfwe- 2x - 1\)}
+    %Here the blue parabola is defined
+    \addplot [
+        domain=-10:10.6765, 
+        samples=100, 
+        color=blue,
+        ]
+        {x^2 +{} 2*x + 10};
+    \addlegendentry{\(x^2 + 2x + constante\)}
+
+    \end{axis}
+\end{tikzpicture}
+
+\end{document}

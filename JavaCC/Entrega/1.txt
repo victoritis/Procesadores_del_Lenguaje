@@ -1,0 +1,12 @@
+Var <: 5 * 25;    # la variable var toma el valor de 5 * 25
+read v;           # Leer un valor para la variable v
+do                # bucle para decrementar var
+  Var += 2*v 
+while (Var);
+if (5 - Var)      # Condicional
+{                 # Cuerpo con varias instrucciones separadas por ; 
+  v -= 1;
+  print v * 3     # Imprimir valor expresión
+} else {
+  print Var + 10
+}

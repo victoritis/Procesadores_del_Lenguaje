@@ -1,0 +1,5 @@
+[0-9]+/ "$"	echo		//un numero del 0-9, que sea 1 o mas caracteres(+, * quiere decir que puede no haber caracteres), y que luego vaya seguido por $, importante que / hace que en el echo no se imprima la parte del $
+
+
+[0-9]+ "$"	echo		//igual que antes, solo que ahora en el echo aparece tambien el $
+
