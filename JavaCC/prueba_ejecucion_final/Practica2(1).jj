@@ -2,7 +2,7 @@
  * Título    	  : Minicompilador con JavaCC	Pila Abstracta
  * Descripción	: Programa en JavaCC para obtener un compilador que traduzca un lenguaje
  *		  de alto nivel a código de máquina de pila abstracta.
- * Autor    	  : Victor Gonzalez del Campo
+ * Autor    	  : Victor Gonzalez del Campo y Rubén Fernandes Gonçalves
  * Fecha      	: 07-11-2023
  * Versión    	: v 1.0
  * Asignatura 	: Procesadores del Lenguaje

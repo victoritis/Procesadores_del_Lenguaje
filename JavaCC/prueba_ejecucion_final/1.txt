@@ -1,0 +1,14 @@
+# Ejemplo de bucle do...while
+do
+  if (c - d) { print c }
+  else {print d}
+while (7 - 5 + a);
+
+# Ejemplo de bucles anidados
+do 
+  a -= 1;
+  do
+    b -= 2;
+    print a + b
+  while (b)
+while (a)
