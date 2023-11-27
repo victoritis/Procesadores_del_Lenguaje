@@ -1,0 +1,10 @@
+# Ejemplo de un for con incremento por defecto
+read v;
+for ( var from 2*v to 100 ) {
+  # Un condicional sin else
+  if (20-var) { print var}
+};
+# Ejemplo de un for con incremento explícito
+for ( var from v to 50 by 3 ) {
+  print 2 + var * 3
+}

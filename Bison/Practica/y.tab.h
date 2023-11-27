@@ -119,12 +119,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 9 "A_sintactico.y"
+#line 27 "A_sintactico.y"
 
     int num; // Para números
     char* str; // Para cadenas/identificadores
+    int lbl;
 
-#line 128 "y.tab.h"
+#line 129 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

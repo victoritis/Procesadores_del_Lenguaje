@@ -1,14 +1,33 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+//FUNCIÓN OBTENERSIGUIENTENUMERO
+int obtenerSiguienteLBL(){
+	static int siguienteNumero = 0;
+	return siguienteNumero++;
+}
+	
+
 
 int yylex (void);
+
+void yyerror(const char *s) {
+    fprintf(stderr, "Error: %s\n", s);
+}
+
+
+
+
+
 
 %}
 
 %union {
     int num; // Para números
     char* str; // Para cadenas/identificadores
+    int lbl;
 }
 
 %token WHILE IF ELSE PRINT READ DO FOR FROM TO BY
@@ -32,32 +51,68 @@ stmt:
     | assig
     | io
     ;
+    
 
 loop:
-    DO stmts WHILE IPAREN expr DPAREN
-    | FOR IPAREN ID FROM expr TO NUM DPAREN ICOR stmts DCOR
-    | FOR IPAREN ID FROM expr TO NUM BY NUM DPAREN ICOR stmts DCOR
-    ;
-
-cond:
-    IF IPAREN expr DPAREN ICOR stmts DCOR
-    | IF IPAREN expr DPAREN ICOR stmts DCOR ELSE ICOR stmts DCOR
+    DO 
+    { $<lbl>$ = obtenerSiguienteLBL();  printf("LBL%d:\n", $<lbl>$); }
+    { $<lbl>$ = obtenerSiguienteLBL(); }
+    stmts WHILE IPAREN expr DPAREN
+    { printf("\tsifalsovea LBL%d\n", $<lbl>3); printf("\tvea LBL%d\n", $<lbl>2); printf("LBL%d:\n", $<lbl>3); }
+    | FOR IPAREN ID FROM 
+    {printf("\tvalori %s\n", $3);}
+    expr TO NUM 
+    { $<lbl>$ = obtenerSiguienteLBL(); } 
+    { $<lbl>$ = obtenerSiguienteLBL();} 
+    { printf("\tasigna\nLBL%d:\n", $<lbl>9); }
+    for2
     ;
     
+for2:
+
+    DPAREN ICOR stmts DCOR
+
+    { printf("\tvalorid %s\n\tvalord %s\n\tmete 1\n\tadd\n\tasigna\n\tmete %d\n\tvalord %s\n\tsub\n\tsifalsovea LBL%d\n\tvea LBL%d\nLBL%d:\n", $<str>-8,$<str>-8,$<num>-3,$<str>-8,$<lbl>-1, $<lbl>-2,$<lbl>-1); }
+    |
+    BY NUM DPAREN ICOR stmts DCOR
+        { printf("\tvalori %s\n\tvalord %s\n\tmete %d\n\tadd\n\tasigna\n\tmete %d\n\tvalord %s\n\tsub\n\tsifalsovea LBL%d\n\tvea LBL%d\nLBL%d:\n", $<str>-8,$<str>-8,$2,$<num>-3,$<str>-8,$<lbl>-1, $<lbl>-2,$<lbl>-1); }
+    ;
+    
+cond:
+
+    IF IPAREN 
+    { $<lbl>$ = obtenerSiguienteLBL(); }
+    { $<lbl>$ = obtenerSiguienteLBL(); }
+    expr DPAREN 
+    { printf("\tsifalsovea LBL%d\n", $<lbl>3); } 
+    ICOR stmts DCOR cond2
+    ;
+    
+    
+cond2:
+    { printf("LBL%d:\n", $<lbl>-7); }
+    | 
+    ELSE ICOR
+    { printf("\tvea LBL%d\n",$<lbl>-6); } 
+    { printf("LBL%d:\n", $<lbl>-7); } 
+    stmts 
+    { printf("LBL%d:\n", $<lbl>-6); } 
+    DCOR
 
 
 io:
-    PRINT expr
-    | READ ID
+    PRINT expr {printf("\tprint\n");}
+    | READ ID {printf("\tread %s\n", $2);}
     ;
 
 assig:
-    ID ASIG { printf("\tvalori %s\n", $1); } { printf("\t\n"); } expr
-    | ID ADD_ASIG expr
-    | ID SUB_ASIG expr
-    | ID MUL_ASIG expr
-    | ID DIV_ASIG expr
+    ID ASIG { printf("\tvalori %s\n", $1); } expr { printf("\tasigna\n"); }
+    | ID ADD_ASIG { printf("\tvalori %s\n\tvalord %s\n", $1, $1); } expr { printf("\tadd\n\tasigna\n"); }
+    | ID SUB_ASIG { printf("\tvalori %s\n\tvalord %s\n", $1, $1); } expr { printf("\tsub\n\tasigna\n"); }
+    | ID MUL_ASIG { printf("\tvalori %s\n\tvalord %s\n", $1, $1); } expr { printf("\tmul\n\tasigna\n"); }
+    | ID DIV_ASIG { printf("\tvalori %s\n\tvalord %s\n", $1, $1); } expr { printf("\tdiv\n\tasigna\n"); }
     ;
+
     
 
 
@@ -80,14 +135,14 @@ mult:
 
 
 mult1:
-     MUL { printf("\tmul\n"); } val
-    |  DIV { printf("\tdiv\n"); } val
+     MUL val { printf("\tmul\n"); } mult1
+    |  DIV val { printf("\tdiv\n"); } mult1
     | 
     ;
 
 val:
-    NUM		{printf("\n\tmete %d", $1);}
-    | ID	{printf("\n\tvalord %d", $1);}
+    NUM		{printf("\tmete %d\n", $1);}
+    | ID	{printf("\tvalord %s\n", $1);}
     | IPAREN expr DPAREN
     ;
 
@@ -110,3 +165,4 @@ int main( int argc, char *argv[] ){
 	        return 0;
         }
 }
+
