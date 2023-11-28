@@ -67,20 +67,21 @@
 
 
 /* First part of user prologue.  */
-#line 1 "A_sintactico.y"
+#line 14 "A_sintactico2.y"
 
+//Librer铆as
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-//FUNCI覰 OBTENERSIGUIENTENUMERO
+//FUNCI脫N OBTENERSIGUIENTENUMERO
 int obtenerSiguienteLBL(){
 	static int siguienteNumero = 0;
 	return siguienteNumero++;
 }
 	
 
-
+//Variables de bison
 int yylex (void);
 
 void yyerror(const char *s) {
@@ -93,7 +94,7 @@ void yyerror(const char *s) {
 
 
 
-#line 97 "y.tab.c"
+#line 98 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -202,13 +203,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 27 "A_sintactico.y"
+#line 41 "A_sintactico2.y"
 
-    int num; // Para n鷐eros
+    int num; // Para n煤meros
     char* str; // Para cadenas/identificadores
     int lbl;
 
-#line 212 "y.tab.c"
+#line 213 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -680,12 +681,12 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    44,    44,    45,    49,    50,    51,    52,    58,    59,
-      57,    63,    65,    66,    67,    62,    73,    77,    84,    85,
-      87,    83,    93,    96,    97,    99,    95,   104,   105,   109,
-     109,   110,   110,   111,   111,   112,   112,   113,   113,   120,
-     124,   124,   125,   125,   126,   132,   138,   138,   139,   139,
-     140,   144,   145,   146
+       0,    63,    63,    64,    70,    71,    72,    73,    83,    84,
+      82,    88,    90,    91,    92,    87,   102,   105,   118,   119,
+     121,   117,   131,   134,   135,   137,   133,   147,   148,   157,
+     157,   158,   158,   159,   159,   160,   160,   161,   161,   171,
+     179,   179,   180,   180,   181,   190,   200,   200,   201,   201,
+     202,   212,   213,   214
 };
 #endif
 
@@ -1308,211 +1309,211 @@ yyreduce:
   switch (yyn)
     {
   case 8: /* @1: %empty  */
-#line 58 "A_sintactico.y"
+#line 83 "A_sintactico2.y"
     { (yyval.lbl) = obtenerSiguienteLBL();  printf("LBL%d:\n", (yyval.lbl)); }
-#line 1314 "y.tab.c"
+#line 1315 "y.tab.c"
     break;
 
   case 9: /* @2: %empty  */
-#line 59 "A_sintactico.y"
+#line 84 "A_sintactico2.y"
     { (yyval.lbl) = obtenerSiguienteLBL(); }
-#line 1320 "y.tab.c"
+#line 1321 "y.tab.c"
     break;
 
   case 10: /* loop: DO @1 @2 stmts WHILE IPAREN expr DPAREN  */
-#line 61 "A_sintactico.y"
+#line 86 "A_sintactico2.y"
     { printf("\tsifalsovea LBL%d\n", (yyvsp[-5].lbl)); printf("\tvea LBL%d\n", (yyvsp[-6].lbl)); printf("LBL%d:\n", (yyvsp[-5].lbl)); }
-#line 1326 "y.tab.c"
+#line 1327 "y.tab.c"
     break;
 
   case 11: /* $@3: %empty  */
-#line 63 "A_sintactico.y"
+#line 88 "A_sintactico2.y"
     {printf("\tvalori %s\n", (yyvsp[-1].str));}
-#line 1332 "y.tab.c"
+#line 1333 "y.tab.c"
     break;
 
   case 12: /* @4: %empty  */
-#line 65 "A_sintactico.y"
+#line 90 "A_sintactico2.y"
     { (yyval.lbl) = obtenerSiguienteLBL(); }
-#line 1338 "y.tab.c"
+#line 1339 "y.tab.c"
     break;
 
   case 13: /* @5: %empty  */
-#line 66 "A_sintactico.y"
+#line 91 "A_sintactico2.y"
     { (yyval.lbl) = obtenerSiguienteLBL();}
-#line 1344 "y.tab.c"
+#line 1345 "y.tab.c"
     break;
 
   case 14: /* $@6: %empty  */
-#line 67 "A_sintactico.y"
+#line 92 "A_sintactico2.y"
     { printf("\tasigna\nLBL%d:\n", (yyvsp[-1].lbl)); }
-#line 1350 "y.tab.c"
+#line 1351 "y.tab.c"
     break;
 
   case 16: /* for2: DPAREN ICOR stmts DCOR  */
-#line 75 "A_sintactico.y"
+#line 103 "A_sintactico2.y"
     { printf("\tvalorid %s\n\tvalord %s\n\tmete 1\n\tadd\n\tasigna\n\tmete %d\n\tvalord %s\n\tsub\n\tsifalsovea LBL%d\n\tvea LBL%d\nLBL%d:\n", (yyvsp[(-8) - (4)].str),(yyvsp[(-8) - (4)].str),(yyvsp[(-3) - (4)].num),(yyvsp[(-8) - (4)].str),(yyvsp[(-1) - (4)].lbl), (yyvsp[(-2) - (4)].lbl),(yyvsp[(-1) - (4)].lbl)); }
-#line 1356 "y.tab.c"
+#line 1357 "y.tab.c"
     break;
 
   case 17: /* for2: BY NUM DPAREN ICOR stmts DCOR  */
-#line 78 "A_sintactico.y"
+#line 106 "A_sintactico2.y"
         { printf("\tvalori %s\n\tvalord %s\n\tmete %d\n\tadd\n\tasigna\n\tmete %d\n\tvalord %s\n\tsub\n\tsifalsovea LBL%d\n\tvea LBL%d\nLBL%d:\n", (yyvsp[(-8) - (6)].str),(yyvsp[(-8) - (6)].str),(yyvsp[-4].num),(yyvsp[(-3) - (6)].num),(yyvsp[(-8) - (6)].str),(yyvsp[(-1) - (6)].lbl), (yyvsp[(-2) - (6)].lbl),(yyvsp[(-1) - (6)].lbl)); }
-#line 1362 "y.tab.c"
+#line 1363 "y.tab.c"
     break;
 
   case 18: /* @7: %empty  */
-#line 84 "A_sintactico.y"
+#line 118 "A_sintactico2.y"
     { (yyval.lbl) = obtenerSiguienteLBL(); }
-#line 1368 "y.tab.c"
+#line 1369 "y.tab.c"
     break;
 
   case 19: /* @8: %empty  */
-#line 85 "A_sintactico.y"
+#line 119 "A_sintactico2.y"
     { (yyval.lbl) = obtenerSiguienteLBL(); }
-#line 1374 "y.tab.c"
+#line 1375 "y.tab.c"
     break;
 
   case 20: /* $@9: %empty  */
-#line 87 "A_sintactico.y"
+#line 121 "A_sintactico2.y"
     { printf("\tsifalsovea LBL%d\n", (yyvsp[-3].lbl)); }
-#line 1380 "y.tab.c"
+#line 1381 "y.tab.c"
     break;
 
   case 22: /* cond2: %empty  */
-#line 93 "A_sintactico.y"
+#line 131 "A_sintactico2.y"
     { printf("LBL%d:\n", (yyvsp[(-7) - (0)].lbl)); }
-#line 1386 "y.tab.c"
+#line 1387 "y.tab.c"
     break;
 
   case 23: /* $@10: %empty  */
-#line 96 "A_sintactico.y"
+#line 134 "A_sintactico2.y"
     { printf("\tvea LBL%d\n",(yyvsp[(-6) - (2)].lbl)); }
-#line 1392 "y.tab.c"
+#line 1393 "y.tab.c"
     break;
 
   case 24: /* $@11: %empty  */
-#line 97 "A_sintactico.y"
+#line 135 "A_sintactico2.y"
     { printf("LBL%d:\n", (yyvsp[(-7) - (3)].lbl)); }
-#line 1398 "y.tab.c"
+#line 1399 "y.tab.c"
     break;
 
   case 25: /* $@12: %empty  */
-#line 99 "A_sintactico.y"
+#line 137 "A_sintactico2.y"
     { printf("LBL%d:\n", (yyvsp[(-6) - (5)].lbl)); }
-#line 1404 "y.tab.c"
+#line 1405 "y.tab.c"
     break;
 
   case 27: /* io: PRINT expr  */
-#line 104 "A_sintactico.y"
+#line 147 "A_sintactico2.y"
                {printf("\tprint\n");}
-#line 1410 "y.tab.c"
+#line 1411 "y.tab.c"
     break;
 
   case 28: /* io: READ ID  */
-#line 105 "A_sintactico.y"
+#line 148 "A_sintactico2.y"
               {printf("\tread %s\n", (yyvsp[0].str));}
-#line 1416 "y.tab.c"
+#line 1417 "y.tab.c"
     break;
 
   case 29: /* $@13: %empty  */
-#line 109 "A_sintactico.y"
+#line 157 "A_sintactico2.y"
             { printf("\tvalori %s\n", (yyvsp[-1].str)); }
-#line 1422 "y.tab.c"
+#line 1423 "y.tab.c"
     break;
 
   case 30: /* assig: ID ASIG $@13 expr  */
-#line 109 "A_sintactico.y"
+#line 157 "A_sintactico2.y"
                                                   { printf("\tasigna\n"); }
-#line 1428 "y.tab.c"
+#line 1429 "y.tab.c"
     break;
 
   case 31: /* $@14: %empty  */
-#line 110 "A_sintactico.y"
+#line 158 "A_sintactico2.y"
                   { printf("\tvalori %s\n\tvalord %s\n", (yyvsp[-1].str), (yyvsp[-1].str)); }
-#line 1434 "y.tab.c"
+#line 1435 "y.tab.c"
     break;
 
   case 32: /* assig: ID ADD_ASIG $@14 expr  */
-#line 110 "A_sintactico.y"
+#line 158 "A_sintactico2.y"
                                                                          { printf("\tadd\n\tasigna\n"); }
-#line 1440 "y.tab.c"
+#line 1441 "y.tab.c"
     break;
 
   case 33: /* $@15: %empty  */
-#line 111 "A_sintactico.y"
+#line 159 "A_sintactico2.y"
                   { printf("\tvalori %s\n\tvalord %s\n", (yyvsp[-1].str), (yyvsp[-1].str)); }
-#line 1446 "y.tab.c"
+#line 1447 "y.tab.c"
     break;
 
   case 34: /* assig: ID SUB_ASIG $@15 expr  */
-#line 111 "A_sintactico.y"
+#line 159 "A_sintactico2.y"
                                                                          { printf("\tsub\n\tasigna\n"); }
-#line 1452 "y.tab.c"
+#line 1453 "y.tab.c"
     break;
 
   case 35: /* $@16: %empty  */
-#line 112 "A_sintactico.y"
+#line 160 "A_sintactico2.y"
                   { printf("\tvalori %s\n\tvalord %s\n", (yyvsp[-1].str), (yyvsp[-1].str)); }
-#line 1458 "y.tab.c"
+#line 1459 "y.tab.c"
     break;
 
   case 36: /* assig: ID MUL_ASIG $@16 expr  */
-#line 112 "A_sintactico.y"
+#line 160 "A_sintactico2.y"
                                                                          { printf("\tmul\n\tasigna\n"); }
-#line 1464 "y.tab.c"
+#line 1465 "y.tab.c"
     break;
 
   case 37: /* $@17: %empty  */
-#line 113 "A_sintactico.y"
+#line 161 "A_sintactico2.y"
                   { printf("\tvalori %s\n\tvalord %s\n", (yyvsp[-1].str), (yyvsp[-1].str)); }
-#line 1470 "y.tab.c"
+#line 1471 "y.tab.c"
     break;
 
   case 38: /* assig: ID DIV_ASIG $@17 expr  */
-#line 113 "A_sintactico.y"
+#line 161 "A_sintactico2.y"
                                                                          { printf("\tdiv\n\tasigna\n"); }
-#line 1476 "y.tab.c"
+#line 1477 "y.tab.c"
     break;
 
   case 40: /* $@18: %empty  */
-#line 124 "A_sintactico.y"
+#line 179 "A_sintactico2.y"
              { printf("\tadd\n"); }
-#line 1482 "y.tab.c"
+#line 1483 "y.tab.c"
     break;
 
   case 42: /* $@19: %empty  */
-#line 125 "A_sintactico.y"
+#line 180 "A_sintactico2.y"
                { printf("\tsub\n"); }
-#line 1488 "y.tab.c"
+#line 1489 "y.tab.c"
     break;
 
   case 46: /* $@20: %empty  */
-#line 138 "A_sintactico.y"
+#line 200 "A_sintactico2.y"
              { printf("\tmul\n"); }
-#line 1494 "y.tab.c"
+#line 1495 "y.tab.c"
     break;
 
   case 48: /* $@21: %empty  */
-#line 139 "A_sintactico.y"
+#line 201 "A_sintactico2.y"
                { printf("\tdiv\n"); }
-#line 1500 "y.tab.c"
+#line 1501 "y.tab.c"
     break;
 
   case 51: /* val: NUM  */
-#line 144 "A_sintactico.y"
+#line 212 "A_sintactico2.y"
                 {printf("\tmete %d\n", (yyvsp[0].num));}
-#line 1506 "y.tab.c"
+#line 1507 "y.tab.c"
     break;
 
   case 52: /* val: ID  */
-#line 145 "A_sintactico.y"
+#line 213 "A_sintactico2.y"
                 {printf("\tvalord %s\n", (yyvsp[0].str));}
-#line 1512 "y.tab.c"
+#line 1513 "y.tab.c"
     break;
 
 
-#line 1516 "y.tab.c"
+#line 1517 "y.tab.c"
 
       default: break;
     }
@@ -1705,24 +1706,33 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 149 "A_sintactico.y"
+#line 217 "A_sintactico2.y"
 
 
-//FUNCI覰 MAIN
+/* Separador de secci贸n */
+
+/* FUNCI脫N MAIN
+ * Descripci贸n: Punto de entrada principal del programa.
+ * Comportamiento: Eval煤a si se abre un fichero o se lee desde el terminal.
+ *                Si hay un fichero, lo abre y lo procesa; de lo contrario, lee desde el terminal.
+ */
 int main( int argc, char *argv[] ){
         
-	if (argc > 1){ //Condici髇 if que evalua si se abre un fichero o por el terminal
+	if (argc > 1){ //Condici贸n if que evalua si se abre un fichero o por el terminal
 		extern FILE *yyin;
 		++argv;
 		yyin = fopen( argv[0], "r" ); //Abre el fichero en modo lectura
-		if(!yyin) { //Condici髇 if que evalua si se abre correctamente el fichero
+		if(!yyin) { //Condici贸n if que evalua si se abre correctamente el fichero
 			fprintf(stderr, "Ha ocurrido un error al intentar abrir el fichero. %s\n", argv[1]);
 			exit(1);
 		}
+		yyparse();
+		printf("\n");
 	}else{
 	        yyparse ();
 	        printf("\n");
 	        return 0;
         }
 }
+
 
