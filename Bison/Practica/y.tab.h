@@ -119,9 +119,9 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 27 "A_sintactico.y"
+#line 41 "A_sintactico2.y"
 
-    int num; // Para números
+    int num; // Para nÃºmeros
     char* str; // Para cadenas/identificadores
     int lbl;
 

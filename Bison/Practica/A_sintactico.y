@@ -1,3 +1,16 @@
+/*
+ * Título    	  : Minicompilador con JavaCC	Pila Abstracta
+ * Descripción	: Programa en Bison para obtener un compilador que traduzca un lenguaje
+ *		  de alto nivel a código de máquina de pila abstracta.
+ * Autor    	  : Victor Gonzalez del Campo
+ * Fecha      	: 28-11-2023
+ * Versión    	: v 1.0
+ * Asignatura 	: Procesadores del Lenguaje
+ * Entrega    	: Práctica 2 Javacc
+ *
+ */
+
+
 %{
 #include <stdio.h>
 #include <stdlib.h>

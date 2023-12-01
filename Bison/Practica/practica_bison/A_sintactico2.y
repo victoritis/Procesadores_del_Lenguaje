@@ -1,12 +1,13 @@
 /*
- * Título    	  : Minicompilador con Bison	Pila Abstracta
- * Descripción	: Programa en Bison para obtener un compilador que traduzca un lenguaje
- *		  de alto nivel a código de máquina de pila abstracta.
+ * Título    	  : Analizador lexico	Pila Abstracta
+ * Descripción	: Programa en Flex para obtener un compilador que traduzca un lenguaje
+ *		  de alto nivel a código de máquina de pila abstracta. Esta parte en concreto
+ *		  se usa para analizar el texto y generar tokens mediante este.
  * Autor    	  : Victor Gonzalez del Campo
  * Fecha      	: 28-11-2023
  * Versión    	: v 1.0
  * Asignatura 	: Procesadores del Lenguaje
- * Entrega    	: Práctica 3 Bison
+ * Entrega    	: Práctica 3 Bison(flex)
  *
  */
 
